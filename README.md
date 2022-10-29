@@ -145,7 +145,7 @@ python train_aux.py --workers 8 --device 0 --batch-size 16 --data data/custom.ya
 
 See [reparameterization.ipynb](tools/reparameterization.ipynb)
 
-More informaiton about training,
+## Evaluation
 ![](runs/train/yolov715/confusion_matrix.png)
 ![](runs/train/yolov715/results.png)
 ![](runs/train/yolov715/R_curve.png)
@@ -196,7 +196,8 @@ python ./tensorrt-python/export.py -o yolov7-tiny.onnx -e yolov7-tiny-nms.trt -p
 # Official git repo
 
 git repo : [click](https://github.com/WongKinYiu/yolov7)
-Thank ```WongKinYiu``` for giving amazing git repo
+
+Thanks ```WongKinYiu``` for giving amazing git repo
 
 ## Acknowledgements
 
