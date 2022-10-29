@@ -147,11 +147,11 @@ See [reparameterization.ipynb](tools/reparameterization.ipynb)
 
 More informaiton about training,
 ![](runs/train/yolov715/confusion_matrix.png)
+![](runs/train/yolov715/results.png)
+![](runs/train/yolov715/R_curve.png)
 ![](runs/train/yolov715/F1_curve.png)
 ![](runs/train/yolov715/P_curve.png)
 ![](runs/train/yolov715/PR_curve.png)
-![](runs/train/yolov715/R_curve.png)
-![](runs/train/yolov715/results.png)
 
 ![](runs/train/yolov715/test_batch0_labels.jpg)
 ![](runs/train/yolov715/test_batch0_pred.jpg)
