@@ -1,23 +1,13 @@
 # YOLOv7 For Vehicles Detection
-In this tutorial, we examine the YOLOv7 & its  features, learn how to prepare custom datasets for the model, and  build a YOLOv7 demo from scratch using Bangladesh Vehicles Dataset. 
-
-
-
-
-## Web Demo
-
-
-## Performance 
-
+In this tutorial, we examine the YOLOv7 & its  features, learn how to prepare custom datasets for the model, and  build a YOLOv7 demo from scratch using custom generated Bangladesh Vehicles Dataset. 
 
 ## Installation
+Tested with: Python 3.8 Pytorch 1.12.0+cu113
 ```
 pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 -f https://download.pytorch.org/whl/torch_stable.html
 Pip install -r requirements.txt
 ```
-# Data Processing
-
-Please check the data processing repo [click](https://github.com/ultralytics/JSON2YOLO)
+or 
 
 ``` shell
 # create the docker container, you can change the share memory size if you have more.
@@ -34,45 +24,89 @@ pip install seaborn thop
 cd /yolov7
 ```
 
-</details>
+# Data Processing
 
-## Testing
+Please check the data processing repo [click](https://github.com/ultralytics/JSON2YOLO) script is ```general_json2yolo.py```
 
-[`yolov7.pt`](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7.pt) [`yolov7x.pt`](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7x.pt) [`yolov7-w6.pt`](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-w6.pt) [`yolov7-e6.pt`](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-e6.pt) [`yolov7-d6.pt`](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-d6.pt) [`yolov7-e6e.pt`](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-e6e.pt)
-
-``` shell
-python test.py --data data/coco.yaml --img 640 --batch 32 --conf 0.001 --iou 0.65 --device 0 --weights yolov7.pt --name yolov7_640_val
+Traning Data structure,
+```sh
+dataset
+├── annotations
+│   ├── training.json
+│   └── valivation.json
+├── images
+│   ├── training
+│   │    ├── 01.jpg
+│   │    └── 02.jpg
+│   └── valivation
+│   │   ├── 03.jpg
+│   │   └── 04.jpg
+├── labels
+│   ├── training
+│   │   ├── 01.txt
+│   │   └── 02.txt
+│   └── valivation
+│   │   ├── 03.jpg
+│   │   └── 04.jpg
+├── training.txt
+│    ├──./images/training/01.jpg
+│    └──./images/training/02.jpg
+└── validation.txt
+    ├──./images/valivation/03.jpg
+    └──./images/valivation/04.jpg
 ```
 
-You will get the results:
+## Label should be below this type of format,
+
+Example: 01.txt
+```
+if the coordiante like this : [x-min, y-min, x-max, y-max] or [x1, y1, x2, y2]
+
+# normalize x by width[image width]
+# normalize y by height[image height]
+```
+```
+class_index Norimalize of [x1,y1, x2, y2] 
+      7     0.799583 0.424375 0.0975 0.13875
 
 ```
- Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.51206
- Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.69730
- Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.55521
- Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.35247
- Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.55937
- Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.66693
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.38453
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.63765
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.68772
- Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.53766
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.73549
- Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.83868
-```
+
 
 To measure accuracy, download [COCO-annotations for Pycocotools](http://images.cocodataset.org/annotations/annotations_trainval2017.zip) to the `./coco/annotations/instances_val2017.json`
 
-## Training
+## Coco dataset
 
 Data preparation
 
 ``` shell
 bash scripts/get_coco.sh
 ```
-
 * Download MS COCO dataset images ([train](http://images.cocodataset.org/zips/train2017.zip), [val](http://images.cocodataset.org/zips/val2017.zip), [test](http://images.cocodataset.org/zips/test2017.zip)) and [labels](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/coco2017labels-segments.zip). If you have previously used a different version of YOLO, we strongly recommend that you delete `train2017.cache` and `val2017.cache` files, and redownload [labels](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/coco2017labels-segments.zip) 
 
+
+# Traning Configuration
+
+
+
+check ```cfg/training/yolov7.yaml```
+```python
+# set number of class 
+nc: 21  # number of classes
+```
+check ```data/coco.yaml```
+```python
+train: ./dataset/training.txt  # 118287 images
+val: ./dataset/validation.txt  # 5000 images
+
+# number of classes
+nc: 21
+
+names : [ 'motorbike', 'pickup', 'three wheelers (CNG)', 'suv', 'car', 'truck', 'rickshaw', 'bus', 'human hauler', 'bicycle', 
+          'minivan', 'ambulance', 'wheelbarrow', 'van', 'policecar', 'minibus', 'auto rickshaw', 'taxi', 'scooter', 'garbagevan', 
+          'army vehicle']
+
+```
+# Training 
 Single GPU training
 
 ``` shell
@@ -111,6 +145,21 @@ python train_aux.py --workers 8 --device 0 --batch-size 16 --data data/custom.ya
 
 See [reparameterization.ipynb](tools/reparameterization.ipynb)
 
+More informaiton about training,
+![](runs/train/yolov715/confusion_matrix.png)
+![](runs/train/yolov715/F1_curve.png)
+![](runs/train/yolov715/P_curve.png)
+![](runs/train/yolov715/PR_curve.png)
+![](runs/train/yolov715/R_curve.png)
+![](runs/train/yolov715/results.png)
+
+![](runs/train/yolov715/test_batch0_labels.jpg)
+![](runs/train/yolov715/test_batch0_pred.jpg)
+![](runs/train/yolov715/test_batch1_labels.jpg)
+![](runs/train/yolov715/test_batch1_pred.jpg)
+![](runs/train/yolov715/test_batch2_labels.jpg)
+![](runs/train/yolov715/test_batch2_pred.jpg)
+
 ## Inference
 
 On video:
@@ -120,37 +169,17 @@ python detect.py --weights yolov7.pt --conf 0.25 --img-size 640 --source yourvid
 
 On image:
 ``` shell
-python detect.py --weights yolov7.pt --conf 0.25 --img-size 640 --source inference/images/horses.jpg
+python detect.py --weights yolov7.pt --conf 0.25 --img-size 640 --source inference/images/1.jpg
 ```
 
-<div align="center">
-    <a href="./">
-        <img src="./figure/horses_prediction.jpg" width="59%"/>
-    </a>
-</div>
 
+## Testing
 
-## Export
+[`yolov7.pt`](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7.pt) [`yolov7x.pt`](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7x.pt) [`yolov7-w6.pt`](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-w6.pt) [`yolov7-e6.pt`](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-e6.pt) [`yolov7-d6.pt`](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-d6.pt) [`yolov7-e6e.pt`](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-e6e.pt)
 
-**Pytorch to CoreML (and inference on MacOS/iOS)** <a href="https://colab.research.google.com/github/WongKinYiu/yolov7/blob/main/tools/YOLOv7CoreML.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
-
-**Pytorch to ONNX with NMS (and inference)** <a href="https://colab.research.google.com/github/WongKinYiu/yolov7/blob/main/tools/YOLOv7onnx.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
-```shell
-python export.py --weights yolov7-tiny.pt --grid --end2end --simplify \
-        --topk-all 100 --iou-thres 0.65 --conf-thres 0.35 --img-size 640 640 --max-wh 640
+``` shell
+python test.py --data data/coco.yaml --img 640 --batch 32 --conf 0.001 --iou 0.65 --device 0 --weights yolov7.pt --name yolov7_640_val
 ```
-
-**Pytorch to TensorRT with NMS (and inference)** <a href="https://colab.research.google.com/github/WongKinYiu/yolov7/blob/main/tools/YOLOv7trt.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
-
-```shell
-wget https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-tiny.pt
-python export.py --weights ./yolov7-tiny.pt --grid --end2end --simplify --topk-all 100 --iou-thres 0.65 --conf-thres 0.35 --img-size 640 640
-git clone https://github.com/Linaom1214/tensorrt-python.git
-python ./tensorrt-python/export.py -o yolov7-tiny.onnx -e yolov7-tiny-nms.trt -p fp16
-```
-
-**Pytorch to TensorRT another way** <a href="https://colab.research.google.com/gist/AlexeyAB/fcb47ae544cf284eb24d8ad8e880d45c/yolov7trtlinaom.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a> <details><summary> <b>Expand</b> </summary>
-
 
 ```shell
 wget https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-tiny.pt
@@ -164,64 +193,9 @@ python ./tensorrt-python/export.py -o yolov7-tiny.onnx -e yolov7-tiny-nms.trt -p
 
 </details>
 
-Tested with: Python 3.7.13, Pytorch 1.12.0+cu113
+# Official git repo
 
-## Pose estimation
-
-[`code`](https://github.com/WongKinYiu/yolov7/tree/pose) [`yolov7-w6-pose.pt`](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-w6-pose.pt)
-
-See [keypoint.ipynb](https://github.com/WongKinYiu/yolov7/blob/main/tools/keypoint.ipynb).
-
-<div align="center">
-    <a href="./">
-        <img src="./figure/pose.png" width="39%"/>
-    </a>
-</div>
-
-
-## Instance segmentation
-
-[`code`](https://github.com/WongKinYiu/yolov7/tree/mask) [`yolov7-mask.pt`](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-mask.pt)
-
-See [instance.ipynb](https://github.com/WongKinYiu/yolov7/blob/main/tools/instance.ipynb).
-
-<div align="center">
-    <a href="./">
-        <img src="./figure/mask.png" width="59%"/>
-    </a>
-</div>
-
-
-## Citation
-
-```
-@article{wang2022yolov7,
-  title={{YOLOv7}: Trainable bag-of-freebies sets new state-of-the-art for real-time object detectors},
-  author={Wang, Chien-Yao and Bochkovskiy, Alexey and Liao, Hong-Yuan Mark},
-  journal={arXiv preprint arXiv:2207.02696},
-  year={2022}
-}
-```
-
-
-## Teaser
-
-Yolov7-semantic & YOLOv7-panoptic & YOLOv7-caption
-
-<div align="center">
-    <a href="./">
-        <img src="./figure/tennis.jpg" width="24%"/>
-    </a>
-    <a href="./">
-        <img src="./figure/tennis_semantic.jpg" width="24%"/>
-    </a>
-    <a href="./">
-        <img src="./figure/tennis_panoptic.png" width="24%"/>
-    </a>
-    <a href="./">
-        <img src="./figure/tennis_caption.png" width="24%"/>
-    </a>
-</div>
+git repo : [click](https://github.com/WongKinYiu/yolov7)
 
 
 ## Acknowledgements
