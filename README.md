@@ -193,7 +193,7 @@ python ./tensorrt-python/export.py -o yolov7-tiny.onnx -e yolov7-tiny-nms.trt -p
 
 </details>
 
-# Official git repo
+## Official git repo
 
 git repo : [click](https://github.com/WongKinYiu/yolov7)
 
