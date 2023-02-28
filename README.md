@@ -1,5 +1,5 @@
 # Vehicles Detection Using Yolov7 
-In this tutorial, i examine the YOLOv7 & its  features, learn how to prepare custom datasets for the model, and  build a YOLOv7 demo from scratch using custom generated Vehicles Dataset.
+In this tutorial, I examine the YOLOv7 & its features, learn how to prepare custom datasets for the model, and build a YOLOv7 demo from scratch using the custom generated Vehicles Dataset.
 
 ## Installation
 Tested with: Python 3.8 Pytorch 1.12.0+cu113
