@@ -1,5 +1,8 @@
-# Vehicles Detection Using Yolov7 
-In this tutorial, I examine the YOLOv7 & its features, learn how to prepare custom datasets for the model, and build a YOLOv7 demo from scratch using the custom generated Vehicles Dataset.
+# BD_Vehicles_Detection
+In this tutorial, I examine the YOLOv7 & its features, learn how to prepare custom datasets for the model, and build a YOLOv7 demo from scratch using the custom-generated Vehicles Dataset. the 21 classes of the dataset that are 
+motorbike', 'pickup', 'three wheelers (CNG)', 'suv', 'car', 'truck', 'rickshaw', 'bus', 'human hauler', 'bicycle', 'minivan', 'ambulance', 'wheelbarrow', 'van', 'policecar', 'minibus', 'auto rickshaw', 'taxi', 'scooter', 'garbagevan', 'army vehicle etc.
+
+So Here we train the detection model using the DB_vehicles dataset and try to leverage high performance for detection of the of Bangladesh Vehicles. Here we use around 3000 datasets for building this model.
 
 ## Installation
 Tested with: Python 3.8 Pytorch 1.12.0+cu113
